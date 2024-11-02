@@ -13,7 +13,7 @@
         <nav class="navbar navbar-expand-lg custom-navbar">
             <div class="container-fluid">
               <a class="" href="index.html">
-                <img src="" alt="weather" />
+                <img src="./img/weather.png" alt="weather" />
               </a>
               <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -30,33 +30,36 @@
               </div>
             </div>
           </nav>
-        <div class="container">
+        <div class="container container-header">
             <h1>Weather</h1>
         </div>
         <main>
-            <section class="search-section">
+            <section class="search-section p-3 rounded shadow-sm">
                 <div class="input-group">
                     <label for="city_name" class="input-label">City's name</label>
                     <input type="text" id="city_name" class="input-field" placeholder="Write the city's name" />
                 </div>
                 <div class="button-group">
-                    <button id="search_city" class="search-button" aria-label="Search city">Weather Report</button>
+                    <button id="search_city" class="search-button" aria-label="Search weather for City">Search</button>
                 </div>
             </section>
-            <section>
-                <table id="time_results_table">
-                    <thead>
-                        <tr>
-                            <th>Nombre del Lugar</th>
-                            <th>Hora</th>
-                            <th>Predicción</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        
-                    </tbody>
-                </table>
-            </section>
+          </main>
+                    <section class="mt-5">
+                        <table class="table table-striped" id="time_results_table">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>City</th>
+                                    <th>Time</th>
+                                    <th>Weather Report</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                
+                            </tbody>
+                        </table>
+                    </section>
+                </div>
+            </div>
         </main>
         
         
