@@ -1,2 +1,17 @@
-@import "../node_modules/bootstrap/scss/bootstrap.scss"
+// Variables customizadas: Antes que bootstrap.
+
+
+
+
+// Bootstrap: Antes que mis módulos scss
+@import "../node_modules/bootstrap/scss/bootstrap.scss";
+
+
+
+// Módulos scss
+@import 'header.scss';
+@import 'main.scss';
+@import 'baseStyles.scss';
+@import 'navegator.scss';
+
 
