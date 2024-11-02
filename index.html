@@ -10,9 +10,56 @@
         <link rel="stylesheet" href="./css/style.css" />
     </head>
     <body>
-        <h1>Weather</h1>
-        <input type="text" id="city_name"></input>
-        <button id="search_city">Buscar</button>
+        <nav class="navbar navbar-expand-lg custom-navbar">
+            <div class="container-fluid">
+              <a class="" href="index.html">
+                <img src="" alt="weather" />
+              </a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                  <li class="nav-item">
+                    <a class="nav-link" href="#search_city">Search</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#">Location</a>
+                  </li>
+              </div>
+            </div>
+          </nav>
+        <div class="container">
+            <h1>Weather</h1>
+        </div>
+        <main>
+            <section class="search-section">
+                <div class="input-group">
+                    <label for="city_name" class="input-label">City's name</label>
+                    <input type="text" id="city_name" class="input-field" placeholder="Write the city's name" />
+                </div>
+                <div class="button-group">
+                    <button id="search_city" class="search-button" aria-label="Search city">Weather Report</button>
+                </div>
+            </section>
+            <section>
+                <table id="time_results_table">
+                    <thead>
+                        <tr>
+                            <th>Nombre del Lugar</th>
+                            <th>Hora</th>
+                            <th>Predicción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                    </tbody>
+                </table>
+            </section>
+        </main>
+        
+        
         
 
     <!-- jQuery -->
