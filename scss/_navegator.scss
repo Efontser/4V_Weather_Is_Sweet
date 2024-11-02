@@ -1,0 +1,29 @@
+
+.custom-navbar {
+    background-color: #333;
+    padding: 10px 0;
+
+    .navbar-nav {
+        list-style: none;
+        display: flex;
+        justify-content: center;
+        margin: 0;
+        padding: 0;
+
+        .nav-item {
+            margin: 0 15px;
+
+            .nav-link {
+                color: white !important;
+                text-decoration: none;
+                font-size: 18px;
+                padding: 10px 15px;
+                border-radius: 5px;
+
+                &:hover {
+                    background-color: #575757;
+                }
+            }
+        }
+    }
+}
