@@ -1,4 +1,3 @@
-//@import 'variables.scss';
 
 .search-section {
     display: flex;
@@ -22,7 +21,7 @@
     .input-label {
         font-weight: bold;
         margin-bottom: 5px;
-        color: #333;
+        color: $color_input;
     }
 
     .input-field {
