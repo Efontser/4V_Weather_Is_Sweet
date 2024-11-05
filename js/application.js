@@ -7,7 +7,7 @@ jQuery(document).ready(function () {
 
     search_button.on("click", function () {
         const city = $("#city_name").val();
-        const url_location = `http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${api_key}`;
+        const url_location = `https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${api_key}`;
 
         $.ajax({
             url: url_location,
@@ -17,8 +17,7 @@ jQuery(document).ready(function () {
                 if (city_location) {
                     var latitude = city_location[0].lat;
                     var longitude = city_location[0].lon;
-                    var lang = 'sp';
-                    weather_url = `http://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${api_key}&units=metric&lang=es`;
+                    weather_url = `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${api_key}&units=metric&lang=es`;
                     $.ajax({
                         type: "GET",
                         url: weather_url,
@@ -27,6 +26,8 @@ jQuery(document).ready(function () {
                             if (weather_response) {
                                 var first_forecast = weather_response.list[0].main.temp_min;
                                 alert(`Primer aviso sobre temperatura mínima: ${first_forecast}`);
+                                const city_name = weather_response.city.name
+                                alert(city_name)
                             }
                         },
                         error: function (xhr, status) {
