@@ -121,12 +121,12 @@ jQuery(document).ready(function () {
 
             // Get the weekDay. Wheter is Monday, Tuesday... So we don't override the data.
             let my_day = dayOfWeek(time_stamp_report["dt"]);
-            if (dict_weather_aux[my_day]){
-                dict_weather_aux[my_day].push(dict_own_weather);
-            }else {
-                // There's no day yet. So we 'save' the KEY too.
-                dict_weather_aux[my_day] = dict_own_weather;
-            }
+            if (!dict_weather_aux[my_day]){
+                dict_weather_aux[my_day] = [];
+            }  
+            // There's no day yet. So we 'save' the KEY too.
+            dict_weather_aux[my_day].push(dict_own_weather);
+            
         }
         return dict_weather_aux;
     }
