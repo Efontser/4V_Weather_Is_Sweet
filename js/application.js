@@ -25,6 +25,10 @@ jQuery(document).ready(function () {
                     paintDayList();
                     section_show_weather.show();
                     error.hide();
+                    // To scroll down to the Weather_list
+                    $('html, body').animate({
+                        scrollTop: $('#list_weather').offset().top
+                    }, 800);
                 } else {
                     error.text(`City ${city} doesn't founded.`);
                     error.show();
@@ -60,7 +64,7 @@ jQuery(document).ready(function () {
                                 paintDayList();
                                 section_show_weather.show();
                                 error.hide();
-                                // To scroll down to the Weather_list
+                                // Scroll down smothly
                                 $('html, body').animate({
                                     scrollTop: $('#list_weather').offset().top
                                 }, 800);
@@ -163,12 +167,10 @@ jQuery(document).ready(function () {
         for (let time_forecast of dict_weather[dayName]) {
             let hour_forecasted = time_forecast["dt_txt"].split(" ")[1].slice(0, 5);
             let forecast = `<li class="list-group-item d-flex flex-column align-items-center justify-content-between mb-3 p-4">
-                <!-- Hora -->
                 <div class="text-center mb-2">
                     <span class="fw-bold text-primary">${hour_forecasted}</span>
                 </div>
-
-                <!-- Descripción del tiempo -->
+                <hr>
                 <div class="text-center mb-2">
                     <span class="text-secondary">${time_forecast["main"]}</span>
                 </div>

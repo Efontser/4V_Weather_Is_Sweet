@@ -1,4 +1,6 @@
+@import "variables.scss";
+
 body {
-    background-color: #f0f8ff;
-    font-family: Arial, sans-serif;
+    background-color: $background_body_color;
+    font-family: $font-family-roboto-condensed;
 }

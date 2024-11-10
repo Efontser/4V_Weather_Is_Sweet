@@ -1,18 +1,24 @@
+@use 'sass:color';
+
+@import "variables.scss";
+@import "functions.scss";
+
+
 
 .search-section {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 20px;
+    padding: pxToEm($px_base*2);
     background-color: $primary;
-    border-radius: 8px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    max-width: 400px;
-    margin: -20px auto 0;
+    border-radius: pxToEm($px_base*0.8);
+    box-shadow: 0em pxToEm($px_base*0.4) pxToEm($px_base*0.8) rgba(0, 0, 0, 0.1);
+    max-width: pxToEm($px_base*40);
+    margin: -(pxToEm($px_base*2)) auto 0em;
     .input-group {
         width: 100%;
-        margin-bottom: 15px;
+        margin-bottom: pxToEm($px_base*1.5);
         display: flex;
         flex-direction: column;
         align-items: flex-start;
@@ -20,16 +26,17 @@
 
     .input-label {
         font-weight: bold;
-        margin-bottom: 5px;
+        margin-bottom: pxToEm($px_base*0.5);
         color: $color_input;
     }
 
     .input-field {
         width: 100%;
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        font-size: 16px;
+        padding: pxToEm($px_base);
+        border: pxToEm($px_base*0.1) solid #ccc;
+        border-radius: pxToEm($px_base*0.5);
+        font-size: pxToEm($px_base*1.6);
+        background-color: white;
     }
 
     .button-group {
@@ -39,9 +46,9 @@
     }
 
     .search-button {
-        padding: 10px 20px;
+        padding: pxToEm($px_base) pxToEm($px_base*2);
         font-weight: bold;
-        border-radius: 5px;
+        border-radius: pxToEm($px_base*0.5);
         background-color: $button_search;
         border: none;
         color: white;
@@ -52,3 +59,20 @@
         }
     }
 }
+
+
+.show-section {
+    .nav-tabs, 
+    .list-group {
+      .list-group-item {
+        background-color: white;
+        transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  
+        &:hover {
+          background-color: adjust-color($primary, $lightness: 40%, $saturation: -30%);
+          box-shadow: 0em pxToEm($px_base*0.4) pxToEm($px_base*0.8) rgba(0, 0, 0, 0.2);
+        }
+      }
+    }
+  }
+  

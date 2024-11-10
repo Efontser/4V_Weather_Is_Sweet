@@ -1,0 +1,118 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap");
+.container-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  min-height: 50vh;
+  background-color: white;
+  padding: 1.25em;
+  border: 0.0625em solid #ddd;
+  border-radius: 0.5em;
+  box-shadow: 0em 0.25em 0.625em rgba(0, 0, 0, 0.1);
+}
+.container-header h1 {
+  color: #333;
+  font-weight: bold;
+  margin-bottom: 1.25em;
+}
+
+.search-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25em;
+  background-color: #ffc107;
+  border-radius: 0.5em;
+  box-shadow: 0em 0.25em 0.5em rgba(0, 0, 0, 0.1);
+  max-width: 25em;
+  margin: -1.25em auto 0em;
+}
+.search-section .input-group {
+  width: 100%;
+  margin-bottom: 0.9375em;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.search-section .input-label {
+  font-weight: bold;
+  margin-bottom: 0.3125em;
+  color: #333;
+}
+.search-section .input-field {
+  width: 100%;
+  padding: 0.625em;
+  border: 0.0625em solid #ccc;
+  border-radius: 0.3125em;
+  font-size: 1em;
+  background-color: white;
+}
+.search-section .button-group {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.search-section .search-button {
+  padding: 0.625em 1.25em;
+  font-weight: bold;
+  border-radius: 0.3125em;
+  background-color: #00509E;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+.search-section .search-button:hover {
+  background-color: rgb(0, 54.1772151899, 107);
+}
+
+.show-section .nav-tabs .list-group-item,
+.show-section .list-group .list-group-item {
+  background-color: white;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+.show-section .nav-tabs .list-group-item:hover,
+.show-section .list-group .list-group-item:hover {
+  background-color: rgb(248.4, 240.7, 217.6);
+  box-shadow: 0em 0.25em 0.5em rgba(0, 0, 0, 0.2);
+}
+
+body {
+  background-color: #f0ffff;
+  font-family: "Roboto Condensed", sans-serif;
+}
+
+.custom-navbar {
+  background-color: #333;
+  padding: 0.625em 0em;
+}
+.custom-navbar #navbar-toggler-style {
+  background-color: white;
+}
+.custom-navbar .navbar-nav {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  margin: 0em;
+  padding: 0em;
+}
+.custom-navbar .navbar-nav .nav-item {
+  margin: 0em 0.9375em;
+}
+.custom-navbar .navbar-nav .nav-item .nav-link {
+  color: white !important;
+  text-decoration: none;
+  font-size: 1.125em;
+  padding: 0.625em 0.9375em;
+  border-radius: 0.3125em;
+}
+.custom-navbar .navbar-nav .nav-item .nav-link:hover {
+  background-color: rgb(89.25, 89.25, 89.25);
+}
+
+/*# sourceMappingURL=style.css.map */
