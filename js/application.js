@@ -197,7 +197,7 @@ jQuery(document).ready(function () {
                     <span>Tª_min: ${Math.round(time_forecast["temp_min"])}ºC</span>
                 </div>
                 <div class="text-center mb-2">
-                    <span>Wind speed: ${time_forecast["wind_speed"]}m/s</span>
+                    <span>Wind speed: ${time_forecast["wind_speed"]}km/h</span>
                 </div>
                 </li>`;
             list_weather.append(forecast);
