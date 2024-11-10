@@ -5,7 +5,7 @@ jQuery(document).ready(function () {
     const search_button = $("#search_city");
     const my_location = $('#location');
     const section_show_weather = $('.show-section');
-
+    const error = $("#city_not_founded");
     // Dict customized
     let dict_weather = {}
 
@@ -24,25 +24,21 @@ jQuery(document).ready(function () {
                     dict_weather = build_my_dict(weather_response);
                     paintDayList();
                     section_show_weather.show();
-                    var first_forecast = weather_response.list[0].main.temp_min;
-                    alert(`Primer aviso sobre temperatura mínima: ${first_forecast}`);
-                    const city_name = weather_response.city.name;
-                    alert(city_name);
-
+                    error.hide();
                 } else {
-                    alert(`City ${city}, doesn't founded`);
-                    section_show_weather.hide();
+                    error.text(`City ${city} doesn't founded.`);
+                    error.show();
                 }
             },
             error: function (xhr, status) {
-                alert(`Something has gone wrong: ${status}`);
+                error.text(`There was an error. City doesn´t founded: ${xhr}`);
+                error.show();
                 section_show_weather.hide();
             },
-            complete: function (xhr, status) {
-                alert(`The status of the request is completed: ${status}.\The 'xhr': ${xhr}`);
-            }
         });
     });
+
+
 
     // Actual location. 
     my_location.on('click', function (event) {
@@ -63,23 +59,22 @@ jQuery(document).ready(function () {
                                 dict_weather = build_my_dict(weather_response);
                                 paintDayList();
                                 section_show_weather.show();
-                                var first_forecast = weather_response.list[0].main.temp_min;
-                                alert(`Primer aviso sobre temperatura mínima: ${first_forecast}`);
-                                const city_name = weather_response.city.name
-                                alert(city_name)
+                                error.hide();
+                                // To scroll down to the Weather_list
+                                $('html, body').animate({
+                                    scrollTop: $('#list_weather').offset().top
+                                }, 800);
                             } else {
-                                alert(`City ${city}, doesn't founded`);
+                                error.text(`City ${city} doesn't founded.`);
+                                error.show();
                             }
                         },
                         error: function (xhr, status) {
-                            alert(`Something has gone wrong: ${status}`);
+                            error.text(`There was an error. City doesn´t founded: ${xhr}`);
+                            error.show();
                             section_show_weather.hide();
                         },
-                        complete: function (xhr, status) {
-                            alert(`The status of the request is completed: ${status}.\The 'xhr': ${xhr}`)
-                        }
                     });
-                    alert(`Tu ubicación es:\nLatitud: ${my_latitude}, Longitud: ${my_longitude}`);
                 },
                 function (error) {
                     alert(`Error trying to obtain the ubication: ${error.message}`);
@@ -88,9 +83,28 @@ jQuery(document).ready(function () {
         } else {
             alert('Geolocation not supported in this client/navegator');
         }
-
     });
 
+
+    // Listener that changes the Active class, and also calls paintWeather() with the parameter day_choosed.
+    $("#day_list").on("click", ".days", function() {
+        $(".days").removeClass('active');
+        $(this).addClass('active');
+        let day_choosed = $(this).text();
+        console.log("Has hecho clic en el botón del día:", day_choosed);
+        paintWeather(day_choosed);
+    });
+   
+    
+    
+
+    /**
+     * Function called: 
+     *      1-In order to paint the week day list.
+     *      2-Obtain the actual day. That's needed because the dictionarys are a disorded collection.
+     * @param {*} timestampUnix default == Null
+     * @returns day of Week
+     */
     function dayOfWeek(timestampUnix = null) {
         const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
         let dayName = null;
@@ -119,11 +133,14 @@ jQuery(document).ready(function () {
             }
             let keys_weather_icon = ["main", "icon"];
             // For an unknown reason, we must iterate over a dict with a list with only one element...
-            weather_info = time_stamp_report["weather"][0];
+            let weather_info = time_stamp_report["weather"][0];
             for (let key in weather_info) {
                 if (keys_weather_icon.includes(key)) dict_own_weather[key] = weather_info[key];
             }
+            let weather_wind = time_stamp_report["wind"];
+            dict_own_weather["wind_speed"] = weather_wind["speed"];
             dict_own_weather["dt_txt"] = time_stamp_report["dt_txt"];
+
 
             // Get the weekDay. And create a pair key[my_day] : [empty]. Wheter is Monday, Tuesday... So we don't override the data while saving the value on the object.
             let my_day = dayOfWeek(time_stamp_report["dt"]);
@@ -162,13 +179,19 @@ jQuery(document).ready(function () {
                     <span>Pressure: ${time_forecast["pressure"]} hPa</span>
                 </div>
                 <div class="text-center mb-2">
-                    <span>Temper: ${time_forecast["temp"]}ºC</span>
+                    <span>Tª: ${Math.round(time_forecast["temp"])}ºC</span>
                 </div>
                 <div class="text-center mb-2">
-                    <span>Temper_man: ${time_forecast["temp_max"]}ºC</span>
+                    <span>Humidity: ${time_forecast["humidity"]}%</span>
                 </div>
-                <div class="text-center">
-                    <span>Temper_min: ${time_forecast["temp_min"]}ºC</span>
+                <div class="text-center mb-2">
+                    <span>Tª_max: ${Math.round(time_forecast["temp_max"])}ºC</span>
+                </div>
+                <div class="text-center mb-2">
+                    <span>Tª_min: ${Math.round(time_forecast["temp_min"])}ºC</span>
+                </div>
+                <div class="text-center mb-2">
+                    <span>Wind speed: ${time_forecast["wind_speed"]}m/s</span>
                 </div>
                 </li>`;
             list_weather.append(forecast);
@@ -179,7 +202,7 @@ jQuery(document).ready(function () {
     function paintDayList() {
         const day_list = $("#day_list");
         day_list.empty();
-        if (dict_weather) { 
+        if (dict_weather) {
             let first_day = true;
             for (let key of Object.keys(dict_weather)) {
                 let btnDay = `<li class="nav-item">
