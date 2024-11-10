@@ -14,7 +14,7 @@ jQuery(document).ready(function () {
 
     search_button.on("click", function () {
         const city = $("#city_name").val();
-        const weather_url = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${api_key}&units=metric&lang=es`;
+        const weather_url = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${api_key}&units=metric&lang=en`;
         $.ajax({
             url: weather_url,
             dataType: "json",
@@ -23,7 +23,6 @@ jQuery(document).ready(function () {
                 if (weather_response) {
                     dict_weather = build_my_dict(weather_response);
                     paintDayList();
-                    paintWeather();
                     section_show_weather.show();
                     var first_forecast = weather_response.list[0].main.temp_min;
                     alert(`Primer aviso sobre temperatura mínima: ${first_forecast}`);
@@ -63,7 +62,6 @@ jQuery(document).ready(function () {
                             if (weather_response) {
                                 dict_weather = build_my_dict(weather_response);
                                 paintDayList();
-                                paintWeather();
                                 section_show_weather.show();
                                 var first_forecast = weather_response.list[0].main.temp_min;
                                 alert(`Primer aviso sobre temperatura mínima: ${first_forecast}`);
@@ -145,40 +143,32 @@ jQuery(document).ready(function () {
         }
         const list_weather = $("#list_weather");
         list_weather.empty();
-        for (let time_forecast in dict_weather[dayName]) {
-            let hour_forecasted = "HoraHORA";  //time_forecast["dt_txt"].split(" ")[1].slice[0, 5];
-            let forecast = `<li class="list-group-item d-flex align-items-center justify-content-between p-3">
+        for (let time_forecast of dict_weather[dayName]) {
+            let hour_forecasted = time_forecast["dt_txt"].split(" ")[1].slice(0, 5);
+            let forecast = `<li class="list-group-item d-flex flex-column align-items-center justify-content-between mb-3 p-4">
                 <!-- Hora -->
-                <div class="text-center">
-                    <span class="fw-bold text-primary" id="forecast-hour">${hour_forecasted}</span>
+                <div class="text-center mb-2">
+                    <span class="fw-bold text-primary">${hour_forecasted}</span>
                 </div>
 
                 <!-- Descripción del tiempo -->
-                <div class="text-center">
-                    <span class="text-secondary" id="forecast-description">${time_forecast["main"]}</span>
+                <div class="text-center mb-2">
+                    <span class="text-secondary">${time_forecast["main"]}</span>
                 </div>
-
-                <!-- Icono del tiempo -->
-                <div class="text-center">
+                <div class="text-center mb-2">
                     <img src="https://openweathermap.org/img/wn/${time_forecast["icon"]}@2x.png" alt="icono de tiempo" class="img-fluid" style="width: 40px; height: 40px;">
                 </div>
-
-                <!-- Presión -->
-                <div class="text-center">
-                    <span class="badge bg-info text-dark" id="forecast-pressure">Presión: ${time_forecast["pressure"]} hPa</span>
+                <div class="text-center mb-2">
+                    <span>Pressure: ${time_forecast["pressure"]} hPa</span>
                 </div>
-
-                <!-- Temperaturas -->
-                <div class="text-center">
-                    <span class="badge bg-warning text-dark" id="forecast-temp">Temper: ${time_forecast["temp"]}ºC</span>
+                <div class="text-center mb-2">
+                    <span>Temper: ${time_forecast["temp"]}ºC</span>
                 </div>
-
-                <div class="text-center">
-                    <span class="badge bg-success text-white" id="forecast-high">Temper_man: ${time_forecast["temp_max"]}ºC</span>
+                <div class="text-center mb-2">
+                    <span>Temper_man: ${time_forecast["temp_max"]}ºC</span>
                 </div>
-
                 <div class="text-center">
-                    <span class="badge bg-primary text-white" id="forecast-low">Temper_min: ${time_forecast["temp_min"]}ºC</span>
+                    <span>Temper_min: ${time_forecast["temp_min"]}ºC</span>
                 </div>
                 </li>`;
             list_weather.append(forecast);
@@ -187,9 +177,9 @@ jQuery(document).ready(function () {
 
 
     function paintDayList() {
-        if (dict_weather) {
-            const day_list = $("#day_list");
-            day_list.empty();
+        const day_list = $("#day_list");
+        day_list.empty();
+        if (dict_weather) { 
             let first_day = true;
             for (let key of Object.keys(dict_weather)) {
                 let btnDay = `<li class="nav-item">
@@ -198,8 +188,8 @@ jQuery(document).ready(function () {
                 day_list.append(btnDay);
                 first_day = false;
             }
+            paintWeather();
         }
-
     }
 });
 
