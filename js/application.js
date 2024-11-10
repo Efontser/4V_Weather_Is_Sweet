@@ -1,12 +1,13 @@
 jQuery(document).ready(function () {
+    // TODO DATETIME.NOW() TO DISCRIMINE WHICH DAY IS FIRST IN THE OBJECT!
+
     // HTML Items
     const search_button = $("#search_city");
     const my_location = $('#location');
     const section_show_weather = $('.show-section');
-    const day_list = $("#day_list");
 
     // Dict customized
-    let dict_weather = {} 
+    let dict_weather = {}
 
     // API Key
     const api_key = 'eba99215f58179a0b0969dfa0bf32f4d';
@@ -21,14 +22,17 @@ jQuery(document).ready(function () {
             success: function (weather_response) {
                 if (weather_response) {
                     dict_weather = build_my_dict(weather_response);
+                    paintDayList();
+                    paintWeather();
                     section_show_weather.show();
                     var first_forecast = weather_response.list[0].main.temp_min;
                     alert(`Primer aviso sobre temperatura mínima: ${first_forecast}`);
                     const city_name = weather_response.city.name;
                     alert(city_name);
-                    
+
                 } else {
                     alert(`City ${city}, doesn't founded`);
+                    section_show_weather.hide();
                 }
             },
             error: function (xhr, status) {
@@ -58,6 +62,8 @@ jQuery(document).ready(function () {
                         success: function (weather_response) {
                             if (weather_response) {
                                 dict_weather = build_my_dict(weather_response);
+                                paintDayList();
+                                paintWeather();
                                 section_show_weather.show();
                                 var first_forecast = weather_response.list[0].main.temp_min;
                                 alert(`Primer aviso sobre temperatura mínima: ${first_forecast}`);
@@ -77,7 +83,7 @@ jQuery(document).ready(function () {
                     });
                     alert(`Tu ubicación es:\nLatitud: ${my_latitude}, Longitud: ${my_longitude}`);
                 },
-                function(error){
+                function (error) {
                     alert(`Error trying to obtain the ubication: ${error.message}`);
                 }
             );
@@ -87,48 +93,113 @@ jQuery(document).ready(function () {
 
     });
 
-    function dayOfWeek(timestampUnix){
+    function dayOfWeek(timestampUnix = null) {
+        const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
         let dayName = null;
-        if (timestampUnix){
+        if (timestampUnix == null) {
+            dayName = daysOfWeek[new Date().getDay()];
+        } else {
             // Miliseconds to Date()
             const date = new Date(timestampUnix * 1000);
             // Get day name
-            const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-            dayName = daysOfWeek[date.getUTCDay()]; 
+            dayName = daysOfWeek[date.getUTCDay()];
+            dayName = (dayName != null) ? dayName : "Any day";
         }
-        dayName = (dayName != null) ? dayName : "Any day";
         return dayName;
     }
 
     // Function that uses the Data Json, and tries to customice a dictionary in order to paint it in the HTML.
     // Returns --> The dictionary customiced, so it may be assigned to a global variable.
-    function build_my_dict(weather){
-       let dict_weather_aux = {}
-        for (let time_stamp_report of weather["list"]){
+    function build_my_dict(weather) {
+        let dict_weather_aux = {}
+        for (let time_stamp_report of weather["list"]) {
             let dict_own_weather = {};
             let keys_atmospheric_factors = ["temp", "temp_min", "temp_max", "pressure", "humidity"];
             let main = time_stamp_report["main"];
-            for (let key in main){
+            for (let key in main) {
                 if (keys_atmospheric_factors.includes(key)) dict_own_weather[key] = main[key];
             }
             let keys_weather_icon = ["main", "icon"];
             // For an unknown reason, we must iterate over a dict with a list with only one element...
             weather_info = time_stamp_report["weather"][0];
-            for (let key in weather_info){
+            for (let key in weather_info) {
                 if (keys_weather_icon.includes(key)) dict_own_weather[key] = weather_info[key];
             }
             dict_own_weather["dt_txt"] = time_stamp_report["dt_txt"];
 
-            // Get the weekDay. Wheter is Monday, Tuesday... So we don't override the data.
+            // Get the weekDay. And create a pair key[my_day] : [empty]. Wheter is Monday, Tuesday... So we don't override the data while saving the value on the object.
             let my_day = dayOfWeek(time_stamp_report["dt"]);
-            if (!dict_weather_aux[my_day]){
+            if (!dict_weather_aux[my_day]) {
                 dict_weather_aux[my_day] = [];
-            }  
+            }
             // There's no day yet. So we 'save' the KEY too.
             dict_weather_aux[my_day].push(dict_own_weather);
-            
+
         }
         return dict_weather_aux;
+    }
+
+    function paintWeather(dayName = null) {
+        if (dayName == null) {
+            dayName = dayOfWeek();
+        }
+        const list_weather = $("#list_weather");
+        list_weather.empty();
+        for (let time_forecast in dict_weather[dayName]) {
+            let hour_forecasted = "HoraHORA";  //time_forecast["dt_txt"].split(" ")[1].slice[0, 5];
+            let forecast = `<li class="list-group-item d-flex align-items-center justify-content-between p-3">
+                <!-- Hora -->
+                <div class="text-center">
+                    <span class="fw-bold text-primary" id="forecast-hour">${hour_forecasted}</span>
+                </div>
+
+                <!-- Descripción del tiempo -->
+                <div class="text-center">
+                    <span class="text-secondary" id="forecast-description">${time_forecast["main"]}</span>
+                </div>
+
+                <!-- Icono del tiempo -->
+                <div class="text-center">
+                    <img src="https://openweathermap.org/img/wn/${time_forecast["icon"]}@2x.png" alt="icono de tiempo" class="img-fluid" style="width: 40px; height: 40px;">
+                </div>
+
+                <!-- Presión -->
+                <div class="text-center">
+                    <span class="badge bg-info text-dark" id="forecast-pressure">Presión: ${time_forecast["pressure"]} hPa</span>
+                </div>
+
+                <!-- Temperaturas -->
+                <div class="text-center">
+                    <span class="badge bg-warning text-dark" id="forecast-temp">Temper: ${time_forecast["temp"]}ºC</span>
+                </div>
+
+                <div class="text-center">
+                    <span class="badge bg-success text-white" id="forecast-high">Temper_man: ${time_forecast["temp_max"]}ºC</span>
+                </div>
+
+                <div class="text-center">
+                    <span class="badge bg-primary text-white" id="forecast-low">Temper_min: ${time_forecast["temp_min"]}ºC</span>
+                </div>
+                </li>`;
+            list_weather.append(forecast);
+        }
+    }
+
+
+    function paintDayList() {
+        if (dict_weather) {
+            const day_list = $("#day_list");
+            day_list.empty();
+            let first_day = true;
+            for (let key of Object.keys(dict_weather)) {
+                let btnDay = `<li class="nav-item">
+                <button class="nav-link days ${first_day ? 'active' : ''}" aria-current="page">${key}</button>
+              </li>`;
+                day_list.append(btnDay);
+                first_day = false;
+            }
+        }
+
     }
 });
 
