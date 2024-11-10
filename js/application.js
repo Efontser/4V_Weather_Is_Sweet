@@ -110,17 +110,22 @@ jQuery(document).ready(function () {
      */
     function dayOfWeek(timestampUnix = null) {
         const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-        let dayName = null;
+        let day_name = null;
         if (timestampUnix == null) {
-            dayName = daysOfWeek[new Date().getDay()];
+            let actual_hour = new Date().getHours();
+            let actual_day = daysOfWeek[new Date().getDay()];
+            //Operator ternary --> First we have to consider the worst case scenary: 1- 'Saturday past 21:00'
+            //                     Then                                              2- 'Anyday past 21:00'
+            //                     Finally/else                                      3- Base case
+            day_name = (actual_day == dayOfWeek[dayOfWeek.length] && actual_hour >= 21)? dayOfWeek[0] : (actual_hour >= 21)? daysOfWeek[(new Date().getDay()) + 1] : actual_day;
         } else {
             // Miliseconds to Date()
             const date = new Date(timestampUnix * 1000);
             // Get day name
-            dayName = daysOfWeek[date.getUTCDay()];
-            dayName = (dayName != null) ? dayName : "Any day";
+            day_name = daysOfWeek[date.getUTCDay()];
+            day_name = (day_name != null) ? day_name : "Any day";
         }
-        return dayName;
+        return day_name;
     }
 
     // Function that uses the Data Json, and tries to customice a dictionary in order to paint it in the HTML.
@@ -174,7 +179,7 @@ jQuery(document).ready(function () {
                     <span class="text-secondary">${time_forecast["main"]}</span>
                 </div>
                 <div class="text-center mb-2">
-                    <img src="https://openweathermap.org/img/wn/${time_forecast["icon"]}@2x.png" alt="icono de tiempo" class="img-fluid" style="width: 40px; height: 40px;">
+                    <img src="https://openweathermap.org/img/wn/${time_forecast["icon"]}@2x.png" alt="icon weather" class="img-fluid" style="width: 40px; height: 40px;">
                 </div>
                 <div class="text-center mb-2">
                     <span>Pressure: ${time_forecast["pressure"]} hPa</span>

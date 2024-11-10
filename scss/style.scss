@@ -1,10 +1,10 @@
-// Funciones bootstrap, necesario para variables.scss
+// Functions bootstrap
 @import "../node_modules/bootstrap/scss/functions";
 
-// Variables customized: Before que bootstrap.
+// Variables customized: Before bootstrap.
 @import "variables.scss";
 
-// Módulos scss
+// Modules scss
 @import 'header.scss';
 @import 'main.scss';
 @import 'baseStyles.scss';
