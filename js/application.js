@@ -95,7 +95,6 @@ jQuery(document).ready(function () {
         $(".days").removeClass('active');
         $(this).addClass('active');
         let day_choosed = $(this).text();
-        console.log("Has hecho clic en el botón del día:", day_choosed);
         paintWeather(day_choosed);
     });
    
