@@ -117,7 +117,7 @@ jQuery(document).ready(function () {
             //Operator ternary --> First we have to consider the worst case scenary: 1- 'Saturday past 21:00'
             //                     Then                                              2- 'Anyday past 21:00'
             //                     Finally/else                                      3- Base case
-            day_name = (actual_day == dayOfWeek[dayOfWeek.length] && actual_hour >= 21)? dayOfWeek[0] : (actual_hour >= 21)? daysOfWeek[(new Date().getDay()) + 1] : actual_day;
+            day_name = (actual_day == daysOfWeek[daysOfWeek.length -1] && actual_hour >= 21)? daysOfWeek[0] : (actual_hour >= 21)? daysOfWeek[(new Date().getDay()) + 1] : actual_day;
         } else {
             // Miliseconds to Date()
             const date = new Date(timestampUnix * 1000);
