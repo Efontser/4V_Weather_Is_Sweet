@@ -6,3 +6,6 @@ To BE FAIR, you MUST test the project **on the commit 27**. 28 and 29 are way fa
 Link to FIGMA:
 https://www.figma.com/design/2UrAssKPvYKXQeo6GpgqTq/Weather-is-Sweet?node-id=0-1&t=xvEGSwYPykxCg9Zg-1
 
+Kanban:
+https://github.com/users/Efontser/projects/3/settings
+
